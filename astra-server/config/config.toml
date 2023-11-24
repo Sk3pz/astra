@@ -1,0 +1,4 @@
+# Default: 1024
+ReadBuffer = 1024
+# Default: 1024
+WriteBuffer = 1024
