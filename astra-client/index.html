@@ -19,10 +19,12 @@
             // Generate stars and append them to the container
             for (let i = 0; i < numStars; i++) {
                 const star = document.createElement('div');
-                star.className = 'star blink';
+                star.className = 'star';
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.top = `${Math.random() * 100}%`;
                 starsContainer.appendChild(star);
+                star.style.animationDelay = `${Math.random() * 10}s`;
+                star.style.animation = `blink ${getRandom(2, 5)}s infinite`;
             }
 
             function getRandom(min, max) {
@@ -32,8 +34,9 @@
             // Function to generate a random shooting star
             function generateShootingStar() {
                 const spawnOnTop = Math.random() < 0.5; // Randomly decide whether to spawn on top or right
+                //const spawnOnTop = false;
 
-                const initialX = spawnOnTop ? getRandom(0, window.innerWidth) : window.innerWidth;
+                const initialX = spawnOnTop ? getRandom(0, window.outerWidth) : window.outerWidth;
                 const initialY = spawnOnTop ? 0 : getRandom(0, window.innerHeight);
 
                 const shootingStar = document.createElement('div');
@@ -42,8 +45,10 @@
                 shootingStar.style.left = `${initialX}px`;
                 shootingStar.style.top = `${initialY}px`;
 
-                const moveX = spawnOnTop ? '-100vw' : '100vw';
-                const moveY = spawnOnTop ? '100vh' : '-100vh';
+                //const moveX = spawnOnTop ? '-100vw' : '100vw';
+                const moveX = '-100vw';
+                //const moveY = spawnOnTop ? '100vh' : '-100vh';
+                const moveY = '100vh';
 
                 shootingStar.style.setProperty('--x', moveX);
                 shootingStar.style.setProperty('--y', moveY);
@@ -61,7 +66,7 @@
             generateShootingStar();
 
             // Periodically generate shooting stars
-            setInterval(generateShootingStar, getRandom(100, 200)); // Generate every 3-5 seconds
+            setInterval(generateShootingStar, getRandom(100, 200));
         </script>
     </div>
 

@@ -21,22 +21,16 @@ body {
     z-index: -1;
 }
 
-.blink {
-    animation: blink 2s infinite;
-}
-
 .star {
     position: absolute;
     width: 2px;
     height: 2px;
     background-color: #fff;
     border-radius: 50%;
-    opacity: 0; /* Initially hidden */
 }
 
 .shooting-star {
     animation: shootingStar 4s linear infinite; /* Adjust duration as needed */
-    opacity: 1;
 }
 
 @keyframes blink {
@@ -123,6 +117,7 @@ body {
     color: #dcdccc;
     box-sizing: border-box;
     padding: 0;
+    margin-top: 0.2em;
     z-index: 1;
     overflow-y: auto;
 }
@@ -138,17 +133,9 @@ body {
 }
 
 #filelist > li:hover {
-    background-color: #5b5756; /* Override background color on hover */
+    background-color: #5b5756;
 }
 
-#topInput:focus + #filelist {
-    display: block; /* Show the dropdown when topInput is focused */
-}
-
-#filelist:focus + #filelist {
-    display: block;
-}
-
-#filelist > li:focus + #filelist {
+#filelist.active {
     display: block;
 }

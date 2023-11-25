@@ -58,12 +58,7 @@ function connectWithRetry(delay = 5000) {
                 if (!files.includes(file)) {
                     files.push(file);
                 }
-
-                fileList.innerHTML = "";
-
-                files.forEach(file => {
-                    addItemToFileList(file)
-                });
+                updateSimilarFiles();
             }
         };
     };
@@ -95,7 +90,7 @@ function validateForm() {
     return true;
 }
 
-topInput.addEventListener('focus', function(event) {
+topInput.addEventListener('focus', function(_) {
     socket.send("list");
 });
 
@@ -105,22 +100,16 @@ function selectFile() {
     // Send the input value to the WebSocket server
     socket.send("file:" + inputValue);
 
-    // Prevent the default Enter key behavior (e.g., new line in textarea)
-    event.preventDefault();
-
     bottomInput.disabled = false;
     bottomInput.placeholder = "Enter file content...";
 }
 
-// Function to handle item click
-function handleItemClick(option) {
-    topInput.value = option.value;
-    fileList.style.display = 'none';
-    selectFile();
-}
-
-topInput.addEventListener('input', function(event) {
-    const inputValue = event.target.value;
+function updateSimilarFiles() {
+    let inputValue = topInput.value;
+    // does not work with tab complete :(
+    if (event.target.value.startsWith("delete:")) {
+        inputValue = inputValue.substring(7);
+    }
     const filteredFiles = files.filter(file => file.startsWith(inputValue));
 
     fileList.innerHTML = "";
@@ -128,13 +117,27 @@ topInput.addEventListener('input', function(event) {
     filteredFiles.forEach(file => {
         addItemToFileList(file)
     });
+}
+
+// Function to handle item click
+function handleItemClick(option) {
+    topInput.value = option;
+    updateSimilarFiles();
+    selectFile();
+}
+
+topInput.addEventListener('input', function(_) {
+    updateSimilarFiles();
 });
 
 topInput.addEventListener('keydown', function(event) {
     // add the strings in files to filelist
     if (event.key === 'Tab') {
         event.preventDefault();
-        const inputValue = event.target.value;
+        let inputValue = event.target.value;
+        if (event.target.value.startsWith("delete:")) {
+            inputValue = inputValue.substring(7);
+        }
         const filteredFiles = files.filter(file => file.startsWith(inputValue));
 
         if (filteredFiles.length > 0) {
@@ -150,17 +153,10 @@ topInput.addEventListener('keydown', function(event) {
         return;
     }
 
+    // todo: this does not work on mobile
     // Check if the pressed key is "Enter" and if the top input is focused
     if (event.key === 'Enter' && document.activeElement === this && (event.target.value.startsWith("delete:") || validateForm())) {
         selectFile();
-    }
-});
-
-fileList.addEventListener('click', function(event) {
-    if (event.target.tagName.toLowerCase() === 'li') {
-        // The change event was triggered by selecting an option
-        console.log("clicked: " + event.target.innerText.toString());
-        handleItemClick(event.target.innerText.toString())
     }
 });
 
@@ -170,4 +166,31 @@ bottomInput.addEventListener('keyup', function(event) {
 
     // Send the input value to the WebSocket server
     socket.send("edit:" + fileValue + ":" + inputValue);
+});
+
+fileList.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() === 'li') {
+        // The change event was triggered by selecting an option
+        handleItemClick(event.target.innerText.toString())
+    }
+});
+
+topInput.addEventListener('focus', function() {
+    fileList.classList.add('active');
+    updateSimilarFiles();
+});
+
+topInput.addEventListener('blur', function() {
+    // Delay the removal of 'active' class to give time for a click event to occur
+    setTimeout(function() {
+        fileList.classList.remove('active');
+    }, 200);
+});
+
+fileList.addEventListener('focusin', function() {
+    fileList.classList.add('active');
+});
+
+fileList.addEventListener('focusout', function() {
+    fileList.classList.remove('active');
 });
