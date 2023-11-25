@@ -142,7 +142,7 @@ confirmBtn.addEventListener('click', function(_) {
         return;
     }
 
-    if ((inputValue.value.startsWith("delete:") || validateForm())) {
+    if ((inputValue.startsWith("delete:") || validateForm())) {
         selectFile();
     }
 });
