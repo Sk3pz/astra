@@ -56,6 +56,7 @@
                 starsContainer.appendChild(shootingStar);
 
                 // Remove shooting star and trail elements when they leave the screen
+                // todo: this pools them when window is not in focus
                 shootingStar.addEventListener('animationiteration', () => {
                     shootingStar.remove();
                 });
