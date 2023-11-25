@@ -1,2 +1,2 @@
 .idea/
-astra-server/nodes/
+astra-server/nodes/*.astra
