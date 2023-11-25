@@ -216,6 +216,15 @@ func main() {
 		}
 	}
 
+	// ensure the javascript config exists
+	if _, err := os.Stat("./static/js/config.js"); os.IsNotExist(err) {
+		err := os.WriteFile("./static/js/config.js", []byte("export const ip = \""+cfg.Ip+"\";\nexport const port = \""+strconv.Itoa(cfg.Port)+"\";"), 0644)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+	}
+
 	// start the server
 	setupRoutes()
 	log.Fatal(http.ListenAndServe(cfg.Ip+":"+strconv.Itoa(cfg.Port), nil))

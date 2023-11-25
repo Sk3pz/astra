@@ -1,3 +1,4 @@
 .idea/
 cosmos/*.astra
 config/
+static/js/config.js

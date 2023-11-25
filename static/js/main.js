@@ -1,5 +1,7 @@
 
-const ip = "127.0.0.1:8080"
+import { ip, port } from './config.js';
+
+const address = ip + ":" + port;
 
 const fileList = document.getElementById('filelist');
 const topInput = document.getElementById('topInput');
@@ -44,7 +46,7 @@ let files = [];
 function connectWithRetry(delay = 5000) {
     updateStatusIndicator(false);
 
-    socket = new WebSocket("ws://" + ip + "/ws");
+    socket = new WebSocket("ws://" + address + "/ws");
     console.log("Attempting Connection...");
 
     socket.onopen = () => {
@@ -173,7 +175,6 @@ topInput.addEventListener('keydown', function(event) {
         return;
     }
 
-    // todo: this does not work on mobile
     // Check if the pressed key is "Enter" and if the top input is focused
     if (event.key === 'Enter' && document.activeElement === this && (event.target.value.startsWith("delete:") || validateForm())) {
         selectFile();
