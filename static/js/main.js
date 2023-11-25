@@ -1,4 +1,3 @@
-
 import { ip, port } from './config.js';
 
 const address = ip + ":" + port;
