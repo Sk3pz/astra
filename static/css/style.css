@@ -6,8 +6,8 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #2d2d2d;
-    color: #fff;
+    background-color: #2d2d2d; /* Dark background for a midnight feel */
+    color: #b0b0b0; /* Light gray text color */
     overflow: hidden; /* Ensure stars outside the viewport are not visible */
 }
 
@@ -27,17 +27,19 @@ body {
     height: 2px;
     background-color: #fff;
     border-radius: 50%;
+    opacity: 0.8; /* Slightly transparent stars */
+    box-shadow: 0 0 5px 1px #fff; /* Add a subtle glow effect */
 }
 
 .shooting-star {
     --x: 0;
     --y: 0;
-    animation: shootingStar 4s linear infinite; /* Adjust duration as needed */
+    animation: shootingStar 4s linear infinite;
 }
 
 @keyframes blink {
     0%, 100% {
-        opacity: 0.5;
+        opacity: 0.25;
     }
     50% {
         opacity: 1;
