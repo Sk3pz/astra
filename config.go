@@ -29,7 +29,7 @@ func ReadCfg(filePath string) (Config, error) {
 		if err != nil {
 			return Config{}, err
 		}
-		err = os.WriteFile(filePath, []byte("ip = 'localhost'\nport = 8080\n"+
+		err = os.WriteFile(filePath, []byte("ip = '127.0.0.1'\nport = 8080\n"+
 			"# Default: 1024\n"+
 			"ReadBuffer = 1024\n"+
 			"# Default: 1024\n"+
