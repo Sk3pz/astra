@@ -17,7 +17,7 @@ var upgrader = websocket.Upgrader{
 
 func getFileContent(name string) (string, error) {
 	// get name in ./nodes
-	filePath := "./nodes/" + name + ".astra"
+	filePath := "./cosmos/" + name + ".astra"
 
 	// if the file does not exist, create it
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
@@ -42,7 +42,7 @@ func getFiles() []string {
 	var files []string
 
 	// get all files in ./nodes
-	fileList, err := os.ReadDir("./nodes")
+	fileList, err := os.ReadDir("./cosmos")
 	if err != nil {
 		log.Println(err)
 		return nil
@@ -59,7 +59,7 @@ func getFiles() []string {
 // delete a file under ./nodes
 func deleteFile(name string) error {
 	// get name in ./nodes
-	filePath := "./nodes/" + name + ".astra"
+	filePath := "./cosmos/" + name + ".astra"
 
 	// delete the file
 	err := os.Remove(filePath)
@@ -73,7 +73,7 @@ func deleteFile(name string) error {
 // edit a file
 func editFile(name string, content string) error {
 	// get name in ./nodes
-	filePath := "./nodes/" + name + ".astra"
+	filePath := "./cosmos/" + name + ".astra"
 
 	// write content to file
 	err := os.WriteFile(filePath, []byte(content), 0644)

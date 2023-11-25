@@ -1,5 +1,5 @@
 
-const ip = "localhost:8080"
+const ip = "127.0.0.1:8080"
 
 const fileList = document.getElementById('filelist');
 const topInput = document.getElementById('topInput');
