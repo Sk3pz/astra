@@ -7,10 +7,70 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<!-- todo: shooting stars only spawn from the top of the screen, should include the right -->
+    <div class="stars">
+        <script>
+            // Number of stars
+            const numStars = 1000;
+
+            // Reference to the stars container
+            const starsContainer = document.querySelector('.stars');
+
+            // Generate stars and append them to the container
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star blink';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                starsContainer.appendChild(star);
+            }
+
+            function getRandom(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            // Function to generate a random shooting star
+            function generateShootingStar() {
+                const spawnOnTop = Math.random() < 0.5; // Randomly decide whether to spawn on top or right
+
+                const initialX = spawnOnTop ? getRandom(0, window.innerWidth) : window.innerWidth;
+                const initialY = spawnOnTop ? 0 : getRandom(0, window.innerHeight);
+
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'star shooting-star';
+
+                shootingStar.style.left = `${initialX}px`;
+                shootingStar.style.top = `${initialY}px`;
+
+                const moveX = spawnOnTop ? '-100vw' : '100vw';
+                const moveY = spawnOnTop ? '100vh' : '-100vh';
+
+                shootingStar.style.setProperty('--x', moveX);
+                shootingStar.style.setProperty('--y', moveY);
+
+                shootingStar.style.animationDuration = `${getRandom(4, 8)}s`; // Random duration
+                starsContainer.appendChild(shootingStar);
+
+                // Remove shooting star and trail elements when they leave the screen
+                shootingStar.addEventListener('animationiteration', () => {
+                    shootingStar.remove();
+                });
+            }
+
+            // Generate initial shooting star
+            generateShootingStar();
+
+            // Periodically generate shooting stars
+            setInterval(generateShootingStar, getRandom(100, 200)); // Generate every 3-5 seconds
+        </script>
+    </div>
+
     <div class="container">
+        <div id="statusIndicator" class="status-indicator"></div>
         <h1 class="title">Ad Astra</h1>
         <div class="top-section">
-            <input type="text" id="topInput" placeholder="Enter file name...">
+            <input type="text" id="topInput" pattern="[a-zA-Z0-9_]*" placeholder="Enter a file name..." list="filelist">
+            <ul id="filelist"></ul>
         </div>
         <div class="bottom-section">
             <textarea id="bottomInput" placeholder="No file selected!" disabled="disabled"></textarea>

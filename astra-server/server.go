@@ -37,6 +37,25 @@ func getFileContent(name string) (string, error) {
 	return string(bytes), nil
 }
 
+func getFiles() []string {
+	// gets all files in ./nodes, strips the extension, and returns a list of names
+	var files []string
+
+	// get all files in ./nodes
+	fileList, err := os.ReadDir("./nodes")
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+
+	// strip the extension and add to files
+	for _, file := range fileList {
+		files = append(files, strings.TrimSuffix(file.Name(), ".astra"))
+	}
+
+	return files
+}
+
 // delete a file under ./nodes
 func deleteFile(name string) error {
 	// get name in ./nodes
@@ -81,7 +100,7 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println("Client Connected")
+	log.Println("Client Connected ip: " + ws.RemoteAddr().String())
 
 	reader(ws)
 }
@@ -98,6 +117,11 @@ func writer(msg string, conn *websocket.Conn) {
 // read msg from conn
 func reader(conn *websocket.Conn) {
 	for {
+		// update the user on what files are available
+		for _, file := range getFiles() {
+			writer("file:"+file, conn)
+		}
+
 		_, p, err := conn.ReadMessage()
 		if err != nil {
 			log.Println(err)
@@ -106,15 +130,41 @@ func reader(conn *websocket.Conn) {
 
 		data := string(p)
 
-		// handle messages from the client here
-		log.Println(data)
+		if data == "" {
+			return
+		}
+
+		//log.Println(data)
 
 		// parse the string
 		split := strings.Split(data, ":")
+		if len(split) < 2 && split[0] != "list" {
+			return
+		}
 
 		// match split[0] to a command
 		switch split[0] {
+		case "list":
+			// loop through the files and send them to the client
+			for _, file := range getFiles() {
+				writer("file:"+file, conn)
+			}
 		case "file":
+			// if split[1] is deleted
+			if split[1] == "delete" {
+				// delete the file
+				err := deleteFile(split[2])
+				if err != nil {
+					log.Println(err)
+					writer("error: failed to delete file", conn)
+					return
+				}
+				// update the user on what files are available
+				for _, file := range getFiles() {
+					writer("file:"+file, conn)
+				}
+				return
+			}
 			// get the file
 			content, err := getFileContent(split[1])
 			if err != nil {
@@ -122,15 +172,7 @@ func reader(conn *websocket.Conn) {
 				writer("error: failed to get file", conn)
 				return
 			}
-			writer(content, conn)
-		case "delete":
-			// delete the file
-			err := deleteFile(split[1])
-			if err != nil {
-				log.Println(err)
-				writer("error: failed to delete file", conn)
-				return
-			}
+			writer("content:"+content, conn)
 		case "edit":
 			// edit the file
 			err := editFile(split[1], split[2])
