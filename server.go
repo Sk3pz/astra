@@ -84,12 +84,6 @@ func editFile(name string, content string) error {
 	return nil
 }
 
-// handle requests to the home page
-func homePage(w http.ResponseWriter, r *http.Request) {
-	//_, _ = fmt.Fprintf(w, "Ad Astra")
-	http.ServeFile(w, r, "static/index.html")
-}
-
 // handle websocket requests from the client
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
@@ -214,8 +208,8 @@ func main() {
 	upgrader.WriteBufferSize = cfg.WriteBuffer
 
 	// ensure the directory ./nodes exists
-	if _, err := os.Stat("./nodes"); os.IsNotExist(err) {
-		err := os.Mkdir("./nodes", 0755)
+	if _, err := os.Stat("./cosmos"); os.IsNotExist(err) {
+		err := os.Mkdir("./cosmos", 0755)
 		if err != nil {
 			log.Println(err)
 			return
