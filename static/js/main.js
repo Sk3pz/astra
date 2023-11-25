@@ -1,6 +1,7 @@
 const fileList = document.getElementById('filelist');
 const topInput = document.getElementById('topInput');
 const bottomInput = document.getElementById('bottomInput');
+const confirmBtn = document.getElementById('confirm');
 
 function addItemToFileList(item) {
     const listItem = document.createElement('li');
@@ -97,17 +98,17 @@ topInput.addEventListener('focus', function(_) {
 function selectFile() {
     const inputValue = topInput.value;
 
-    // Send the input value to the WebSocket server
-    socket.send("file:" + inputValue);
-
     bottomInput.disabled = false;
     bottomInput.placeholder = "Enter file content...";
+
+    // Send the input value to the WebSocket server
+    socket.send("file:" + inputValue);
 }
 
 function updateSimilarFiles() {
     let inputValue = topInput.value;
     // does not work with tab complete :(
-    if (event.target.value.startsWith("delete:")) {
+    if (inputValue.startsWith("delete:")) {
         inputValue = inputValue.substring(7);
     }
     const filteredFiles = files.filter(file => file.startsWith(inputValue));
@@ -128,6 +129,22 @@ function handleItemClick(option) {
 
 topInput.addEventListener('input', function(_) {
     updateSimilarFiles();
+});
+
+confirmBtn.addEventListener('click', function(_) {
+    let inputValue = topInput.value;
+
+    if (inputValue === "") {
+        // disable bottom input
+        bottomInput.disabled = true;
+        bottomInput.placeholder = "No file selected!";
+        bottomInput.value = "";
+        return;
+    }
+
+    if ((inputValue.value.startsWith("delete:") || validateForm())) {
+        selectFile();
+    }
 });
 
 topInput.addEventListener('keydown', function(event) {
@@ -176,11 +193,23 @@ fileList.addEventListener('click', function(event) {
 });
 
 topInput.addEventListener('focus', function() {
+    if (topInput.value === "") {
+        // disable bottom input
+        bottomInput.disabled = true;
+        bottomInput.placeholder = "No file selected!";
+        bottomInput.value = "";
+    }
     fileList.classList.add('active');
     updateSimilarFiles();
 });
 
 topInput.addEventListener('blur', function() {
+    if (topInput.value === "") {
+        // disable bottom input
+        bottomInput.disabled = true;
+        bottomInput.placeholder = "No file selected!";
+        bottomInput.value = "";
+    }
     // Delay the removal of 'active' class to give time for a click event to occur
     setTimeout(function() {
         fileList.classList.remove('active');

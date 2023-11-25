@@ -85,20 +85,45 @@ body {
     margin: auto;
 }
 
+#confirm {
+    padding: 0.8em;
+    border: 1px solid #5b5756;
+    border-radius: 10px;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 0.5em; /* Adjust the margin as needed */
+}
+
+#confirm:hover {
+    background-color: #5b5756;
+}
+
 .top-section {
+    /*width: 100%;*/
     margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+}
+
+#topInput {
+    width: 100%;
+    flex: 1;
+}
+
+#bottomInput {
+    width: 100%;
+    overflow-y: auto;
 }
 
 #topInput,
 #bottomInput {
-    width: 100%;
     box-sizing: border-box;
     padding: 10px;
     border: 1px solid #5b5756;
     border-radius: 10px;
     background-color: #333;
     color: #fff;
-    overflow-y: auto;
 }
 
 .bottom-section {
@@ -119,9 +144,11 @@ body {
     color: #dcdccc;
     box-sizing: border-box;
     padding: 0;
-    margin-top: 0.2em;
+    margin-top: -0.8em;
+    margin-left: 0.6em;
     z-index: 1;
     overflow-y: auto;
+    opacity: 0.8;
 }
 
 #filelist li {
