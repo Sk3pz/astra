@@ -84,9 +84,9 @@ func editFile(name string, content string) error {
 }
 
 // handle requests to the home page
-func homePage(w http.ResponseWriter, _ *http.Request) {
-	// todo: need to serve astra-client here
-	_, _ = fmt.Fprintf(w, "Ad Astra")
+func homePage(w http.ResponseWriter, r *http.Request) {
+	//_, _ = fmt.Fprintf(w, "Ad Astra")
+	http.ServeFile(w, r, "static/index.html")
 }
 
 // handle websocket requests from the client
@@ -186,7 +186,11 @@ func reader(conn *websocket.Conn) {
 
 // setup routes for the server
 func setupRoutes() {
-	http.HandleFunc("/", homePage)
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static", fs))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./static/index.html")
+	})
 	http.HandleFunc("/ws", wsEndpoint)
 }
 
