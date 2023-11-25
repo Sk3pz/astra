@@ -184,7 +184,7 @@ topInput.addEventListener('blur', function() {
     // Delay the removal of 'active' class to give time for a click event to occur
     setTimeout(function() {
         fileList.classList.remove('active');
-    }, 200);
+    }, 100);
 });
 
 fileList.addEventListener('focusin', function() {

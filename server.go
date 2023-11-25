@@ -1,7 +1,6 @@
 package main
 
 import (
-	"astra/config"
 	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
@@ -192,7 +191,7 @@ func setupRoutes() {
 }
 
 func main() {
-	cfg, err := config.ReadCfg("config/config.toml")
+	cfg, err := ReadCfg("config/config.toml")
 	if err != nil {
 		log.Println("failed to read config file", err)
 		return
