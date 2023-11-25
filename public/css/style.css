@@ -30,6 +30,8 @@ body {
 }
 
 .shooting-star {
+    --x: 0;
+    --y: 0;
     animation: shootingStar 4s linear infinite; /* Adjust duration as needed */
 }
 
@@ -61,7 +63,7 @@ body {
 .container {
     width: 80%;
     background-color: #423f3e;
-    border-radius: 8px;
+    border-radius: 20px;
     padding: 20px;
     opacity: 0.8;
     box-shadow:
@@ -93,7 +95,7 @@ body {
     box-sizing: border-box;
     padding: 10px;
     border: 1px solid #5b5756;
-    border-radius: 4px;
+    border-radius: 10px;
     background-color: #333;
     color: #fff;
     overflow-y: auto;
