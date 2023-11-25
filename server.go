@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -201,9 +202,11 @@ func main() {
 		return
 	}
 	fmt.Printf("== Welcome to Astra! ==\n"+
+		"Listening on %s:%s\n"+
 		"ReadBuffer:  %d\n"+
 		"WriteBuffer: %d\n"+
 		"=======================\n",
+		cfg.Ip, strconv.Itoa(cfg.Port),
 		cfg.ReadBuffer, cfg.WriteBuffer)
 
 	// update upgrader's values
@@ -221,5 +224,5 @@ func main() {
 
 	// start the server
 	setupRoutes()
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(cfg.Ip+":"+strconv.Itoa(cfg.Port), nil))
 }

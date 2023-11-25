@@ -1,3 +1,6 @@
+
+const ip = "localhost:8080"
+
 const fileList = document.getElementById('filelist');
 const topInput = document.getElementById('topInput');
 const bottomInput = document.getElementById('bottomInput');
@@ -41,7 +44,7 @@ let files = [];
 function connectWithRetry(delay = 5000) {
     updateStatusIndicator(false);
 
-    socket = new WebSocket("ws://192.168.1.249:8080/ws");
+    socket = new WebSocket("ws://" + ip + "/ws");
     console.log("Attempting Connection...");
 
     socket.onopen = () => {

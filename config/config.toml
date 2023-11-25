@@ -1,3 +1,5 @@
+ip = 'localhost'
+port = 8080
 # Default: 1024
 ReadBuffer = 1024
 # Default: 1024
