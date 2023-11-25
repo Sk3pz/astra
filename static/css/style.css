@@ -6,9 +6,9 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #2d2d2d; /* Dark background for a midnight feel */
-    color: #b0b0b0; /* Light gray text color */
-    overflow: hidden; /* Ensure stars outside the viewport are not visible */
+    /*background-color: #2d2d2d; old bg */
+    background-color: #0d1b2a;
+    overflow: hidden;
 }
 
 .stars {
@@ -64,12 +64,14 @@ body {
 
 .container {
     width: 80%;
-    background-color: #423f3e;
+    /*background-color: #423f3e; old color */
+    background-color: #233947;
     border-radius: 20px;
     padding: 20px;
     opacity: 0.8;
     box-shadow:
             6px 6px 12px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
 }
 
 .container:hover {
@@ -91,7 +93,8 @@ body {
     padding: 0.8em;
     border: 1px solid #5b5756;
     border-radius: 10px;
-    background-color: #333;
+    /*background-color: #333;*/
+    background-color: #233947;
     color: #fff;
     cursor: pointer;
     margin-left: 0.5em; /* Adjust the margin as needed */
@@ -124,7 +127,8 @@ body {
     padding: 10px;
     border: 1px solid #5b5756;
     border-radius: 10px;
-    background-color: #333;
+    /*background-color: #333;*/
+    background-color: #233947;
     color: #fff;
 }
 
@@ -142,7 +146,8 @@ body {
     position: absolute;
     width: auto;
     border: 1px solid #dcdccc;
-    background-color: #3f3f3f;
+    /*background-color: #3f3f3f;*/
+    background-color: #233947;
     color: #dcdccc;
     box-sizing: border-box;
     padding: 0;
@@ -164,6 +169,7 @@ body {
 }
 
 #filelist > li:hover {
+    /*background-color: #5b5756;*/
     background-color: #5b5756;
 }
 
