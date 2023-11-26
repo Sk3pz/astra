@@ -36,7 +36,6 @@
                     return;
                 }
                 const spawnOnTop = Math.random() < 0.5; // Randomly decide whether to spawn on top or right
-                //const spawnOnTop = false;
 
                 const initialX = spawnOnTop ? getRandom(0, window.outerWidth) : window.outerWidth;
                 const initialY = spawnOnTop ? 0 : getRandom(0, window.innerHeight);
@@ -47,9 +46,7 @@
                 shootingStar.style.left = `${initialX}px`;
                 shootingStar.style.top = `${initialY}px`;
 
-                //const moveX = spawnOnTop ? '-100vw' : '100vw';
                 const moveX = '-100vw';
-                //const moveY = spawnOnTop ? '100vh' : '-100vh';
                 const moveY = '100vh';
 
                 shootingStar.style.setProperty('--x', moveX);
@@ -59,7 +56,6 @@
                 starsContainer.appendChild(shootingStar);
 
                 // Remove shooting star and trail elements when they leave the screen
-                // todo: this pools them when window is not in focus
                 shootingStar.addEventListener('animationiteration', () => {
                     shootingStar.remove();
                 });
