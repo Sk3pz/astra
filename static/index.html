@@ -32,6 +32,9 @@
 
             // Function to generate a random shooting star
             function generateShootingStar() {
+                if (!document.hasFocus()) {
+                    return;
+                }
                 const spawnOnTop = Math.random() < 0.5; // Randomly decide whether to spawn on top or right
                 //const spawnOnTop = false;
 
